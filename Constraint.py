@@ -15,38 +15,35 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import networkx as nx
 from causallearn.search.ConstraintBased.PC import pc
-from causallearn.utils.cit import fisherz
 
-# Step 1: Load dataset
-df = pd.read_excel("diabetes_data.xlsx")
-data = df.values
-column_names = df.columns.tolist()
+# 1. Load data
+df = pd.read_csv('diabetes_causal_data.csv')
+features = df.drop(columns=['Outcome'])
+data_array = features.values
 
-# Step 2: Run PC Algorithm
-cg = pc(data, test_method=fisherz, alpha=0.05, verbose=True)
+# 2. Run PC algorithm
+cg = pc(data_array, alpha=0.05, indep_test='fisherz')
 
-# Step 3: Extract and show causal edges
-print("\nSignificant Causal Edges Discovered:\n")
-edges = []
-for edge in cg.G.get_graph_edges():
-    node_i = edge.node1.get_name()
-    node_j = edge.node2.get_name()
-    print(f"{node_i} -- {node_j}")
-    edges.append((node_i, node_j))
+# 3. Convert to NetworkX graph
+G = nx.Graph()
+cols = list(features.columns)
+n = len(cols)
 
-# Step 4: Save edges to CSV
-pd.DataFrame(edges, columns=["From", "To"]).to_csv("causal_edges.csv", index=False)
+for i in range(n):
+    for j in range(i + 1, n):  # only upper triangle to avoid duplicates
+        val_ij = cg.G.graph[i, j]
+        val_ji = cg.G.graph[j, i]
+        if val_ij != 0 or val_ji != 0:
+            G.add_edge(cols[i], cols[j])
 
-# Step 5: Draw using networkx (undirected)
-G = nx.Graph()  # or nx.DiGraph() if you want to customize direction later
-G.add_edges_from(edges)
-
-plt.figure(figsize=(10, 7))
+# 4. Plot using NetworkX + Matplotlib
+plt.figure(figsize=(8, 6))
 pos = nx.spring_layout(G, seed=42)
-nx.draw_networkx(G, pos, node_color="lightblue", node_size=3000, font_size=10, font_weight="bold")
-plt.title("Causal Graph (PC Algorithm)")
-plt.axis("off")
-plt.savefig("causal_graph.png", dpi=300)
+nx.draw(G, pos, with_labels=True, node_size=1200, node_color='lightblue', font_size=10)
+plt.title("Causal Skeleton Discovered (PC Algorithm)")
+plt.savefig('causal_graph_networkx.png', dpi=200)
 plt.show()
 
-
+# 5. Extract edges and save CSV
+edges = list(G.edges())
+pd.DataFrame(edges, columns=['Source', 'Target']).to_csv('causal_edges_networkx.csv', index=False)
