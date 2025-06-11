@@ -10,6 +10,17 @@
 # An edge exists between nodes if the test fails to prove independence at the specified alpha level.
 
 
+## PC ((named after Peter and Clark) Algorithm Summary (Constraint-Based Causal Discovery)
+
+# It works under two key assumptions:- 
+   # Causal Markov Condition: Each variable is conditionally independent of its non-effects given its direct causes.
+   # Faithfulness: All conditional independencies in the data reflect the causal graph.
+
+
+##PC algorithm infers the causal skeleton based on conditional independence tests (e.g., Fisher’s Z-test).
+# An edge exists between nodes if the test fails to prove independence at the specified alpha level.
+
+
 
 import pandas as pd
 import matplotlib.pyplot as plt
