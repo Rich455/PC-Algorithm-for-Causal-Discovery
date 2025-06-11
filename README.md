@@ -18,7 +18,7 @@ Orient edges using collider rules and acyclicity (Meek's rules), leading to a pa
 
 
 Mathematical Foundations
-At its core, it uses conditional independence tests (e.g., Fisher’s Z-test for Gaussian data):
+At its core, it uses conditional independence tests (e.g., Fisher’s Z-test for Gaussian data): 
 
 Causal Models vs. Pathophysiological Findings
 
