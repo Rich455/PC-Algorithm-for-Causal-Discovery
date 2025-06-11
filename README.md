@@ -48,3 +48,27 @@ Age ↔ Sex captures differences in metabolic risk trajectories between genders.
 
 Blood Pressure & LDL Connected via Total Cholesterol
 Although not directly tied to glucose, BP and LDL link through Total Cholesterol, supporting known cardiovascular risk pathways
+
+Why This Matters Clinically
+Mimics real-world diabetes pathophysiology—e.g., impaired glucose regulation → dyslipidemia, contributing to cardiovascular risk.
+Highlights key intervention targets: managing glucose to improve lipid profiles or altering BMI/age factors to reduce metabolic burden.
+Demonstrates the potential of causal discovery to complement epidemiological research by suggesting plausible causal pathways—even when using synthetic—but structurally realistic data
+
+Clinical vs. Synthetic Data
+
+This graph was built on AI-generated synthetic data, not actual patient records.
+While not capturing full real-world variability or confounders, the synthetic model reflects clinically plausible relationships, validating the approach.
+In a real EHR dataset, similar methods (PC algorithm) have revealed comparable causal structures between variables like insulin, BP, BMI, glucose, and cholesterol 
+
+
+Are Results Clinically Significant?
+
+Yes—at least at the level of known metabolic relationships:
+Glucose ↔ Lipids
+Age ↔ BMI
+
+Lipid network interconnections
+Lack of direct edges (e.g., BMI → Glucose) may indicate:
+
+Limitations of the synthetic dataset or the α threshold
+Need for real-world data where effect sizes differ
